@@ -48,3 +48,71 @@ This project demonstrates fundamental data preprocessing techniques applied to t
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/ElevateLabs-Internship-Task1.git
+   
+# Elevate-labs-internship-task-2
+
+
+## Task Objective
+The objective of this task is to understand the provided dataset using statistical analysis and various visualizations. This involves exploring the data to identify patterns, trends, or anomalies, and making basic feature-level inferences from the visuals.
+
+**Tools Used:** Pandas, Matplotlib, Seaborn
+
+## Exploratory Data Analysis and Visualization Analysis
+
+The following steps were performed for the Exploratory Data Analysis (EDA) on the Titanic Dataset, with analysis based on the provided images:
+
+### 1. Initial Data Overview (Histograms of Numerical Features)
+
+![image](https://github.com/user-attachments/assets/1243f02f-9850-416c-a462-4d6d18cb2e4d)
+
+
+This image displays histograms for all numerical columns in the dataset: `PassengerId`, `Survived`, `Pclass`, `Age`, `SibSp`, `Parch`, and `Fare`.
+
+* **`PassengerId`**: Shows a uniform distribution, as expected for unique identifiers.
+* **`Survived`**: Clearly indicates an imbalanced dataset, with significantly more passengers not surviving (0) than surviving (1).
+* **`Pclass`**: Shows that `Pclass 3` has the highest number of passengers, followed by `Pclass 1` and then `Pclass 2`.
+* **`Age`**: Reveals a right-skewed distribution, with a higher concentration of younger passengers (around 20-30 years old) and fewer older passengers.
+* **`SibSp` (Siblings/Spouses Aboard)**: The majority of passengers traveled alone or with one sibling/spouse. Very few traveled with more than two.
+* **`Parch` (Parents/Children Aboard)**: Similar to `SibSp`, most passengers traveled without parents or children, or with one or two.
+* **`Fare`**: Highly right-skewed, indicating that most passengers paid lower fares, with a few outliers paying very high fares.
+
+### 2. Age Distribution by Passenger Class (Boxplot)
+
+![image](https://github.com/user-attachments/assets/af858921-71cf-417c-a6ff-15f8356407e0)
+
+
+This boxplot visualizes the distribution of `Age` across different `Pclass` categories.
+
+* **`Pclass 1`**: Passengers in first class tend to be older, with a median age around 37-38. The age range is wider, but outliers extend to around 80.
+* **`Pclass 2`**: The median age for second class passengers is slightly lower than first class, around 29-30. The age distribution is also narrower than first class.
+* **`Pclass 3`**: Passengers in third class are generally the youngest, with a median age around 24-25. This class also shows a significant number of outliers, including very young children.
+* **Overall**: There's a clear trend: as passenger class decreases (from 1 to 3), the median age of passengers also tends to decrease. This suggests that wealthier (first-class) passengers were generally older.
+
+### 3. Correlation Matrix (Heatmap)
+
+![image](https://github.com/user-attachments/assets/f1b83277-ebe1-4c7d-872d-b636111b6bae)
+
+
+This heatmap displays the correlation coefficients between all numerical features. The color intensity and value indicate the strength and direction of the correlation.
+
+* **`Survived` vs. `Pclass`**: A strong negative correlation (-0.34) indicates that passengers in lower classes (higher `Pclass` number) had a lower chance of survival.
+* **`Survived` vs. `Fare`**: A positive correlation (0.26) suggests that passengers who paid higher fares had a better chance of survival.
+* **`Pclass` vs. `Fare`**: A strong negative correlation (-0.55) is observed, meaning higher passenger classes (lower `Pclass` number) are associated with higher fares.
+* **`Age` vs. `Pclass`**: A negative correlation (-0.37) implies that older passengers tended to be in higher classes.
+* **`SibSp` and `Parch`**: These two features show a moderate positive correlation (0.41), which is expected as they both relate to family size.
+* **Other correlations**: Most other correlations are weak, indicating less direct linear relationships.
+
+### 4. Pairplot of Key Features (Age, Fare, Pclass, Survived)
+
+![image](https://github.com/user-attachments/assets/b9b5ff34-bd1f-4922-b27c-70e5dfe0967b)
+
+
+This pairplot shows scatter plots for every combination of `Age`, `Fare`, and `Pclass`, with points colored by `Survived` status (0 for not survived, 1 for survived). The diagonal plots show kernel density estimates (KDEs) for each feature, split by survival status.
+
+* **`Age` Distribution by Survival**: The KDE for `Age` on the diagonal shows that the distribution of ages for survivors (orange) is slightly shifted towards younger ages compared to non-survivors (blue), although there's significant overlap.
+* **`Fare` Distribution by Survival**: The KDE for `Fare` on the diagonal clearly indicates that survivors (orange) tend to have paid higher fares, with a much wider spread towards higher values, while non-survivors (blue) are heavily concentrated at lower fares.
+* **`Pclass` Distribution by Survival**: The KDE for `Pclass` on the diagonal strongly highlights that `Pclass 1` has a higher proportion of survivors, while `Pclass 3` has a significantly higher proportion of non-survivors.
+* **`Age` vs. `Fare`**: The scatter plot shows a general trend where higher fares are paid by a wider range of ages, and survivors are more prevalent among those who paid higher fares.
+* **`Age` vs. `Pclass`**: The scatter plot reinforces that `Pclass 1` (bottom row of `Pclass` values) has older passengers, and a higher survival rate is observed in this group. `Pclass 3` (top row of `Pclass` values) has younger passengers and a lower survival rate.
+* **`Fare` vs. `Pclass`**: The scatter plot shows distinct clusters for each `Pclass`. `Pclass 1` has the highest fares, `Pclass 2` has moderate fares, and `Pclass 3` has the lowest fares. Survival is more common in the higher fare/lower `Pclass` clusters.
+* **Overall**: The pairplot effectively visualizes the interplay between these key features and their impact on survival, reinforcing that `Fare` and `Pclass` are strong indicators of survival, and `Age` plays a role, particularly in conjunction with `Pclass`.
