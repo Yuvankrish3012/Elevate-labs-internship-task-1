@@ -116,3 +116,104 @@ This pairplot shows scatter plots for every combination of `Age`, `Fare`, and `P
 * **`Age` vs. `Pclass`**: The scatter plot reinforces that `Pclass 1` (bottom row of `Pclass` values) has older passengers, and a higher survival rate is observed in this group. `Pclass 3` (top row of `Pclass` values) has younger passengers and a lower survival rate.
 * **`Fare` vs. `Pclass`**: The scatter plot shows distinct clusters for each `Pclass`. `Pclass 1` has the highest fares, `Pclass 2` has moderate fares, and `Pclass 3` has the lowest fares. Survival is more common in the higher fare/lower `Pclass` clusters.
 * **Overall**: The pairplot effectively visualizes the interplay between these key features and their impact on survival, reinforcing that `Fare` and `Pclass` are strong indicators of survival, and `Age` plays a role, particularly in conjunction with `Pclass`.
+
+  # Elevate-labs-internship-task-3
+
+  # 🏠 Housing Price Prediction using Linear Regression
+
+This project implements both **Simple** and **Multiple Linear Regression** to predict house prices using various features from the housing dataset. It is done as part of the AI & ML Internship Task 3.
+
+---
+
+## 📦 Dataset
+
+The dataset used is `Housing.csv`, which contains features such as:
+
+- Area
+- Bedrooms
+- Bathrooms
+- Stories
+- Parking
+- Road access, guestroom, basement, etc. (categorical features)
+
+---
+
+## 🧠 Problem Statement
+
+To build a regression model that can predict house prices based on various features. The goal is to understand:
+
+- How linear regression works
+- Model evaluation metrics
+- Feature impact on house pricing
+
+---
+
+## ⚙️ Libraries Used
+
+- pandas
+- numpy
+- matplotlib
+- seaborn
+- scikit-learn
+
+---
+
+## 🔍 Workflow
+
+### ✔️ 1. Data Preprocessing
+
+- Loaded dataset using pandas
+- Applied one-hot encoding to categorical variables
+- Splitted into features (X) and target (y)
+- Train-test split (80%-20%)
+
+### ✔️ 2. Model Training
+
+- Linear Regression using `sklearn.linear_model.LinearRegression`
+- Trained on training set
+- Tested on the test set
+
+### ✔️ 3. Evaluation Metrics
+
+| Metric | Value |
+|--------|-------|
+| **Mean Absolute Error (MAE)** | ₹ 970,043.40 |
+| **Mean Squared Error (MSE)** | ₹ 1,754,318,687,330.66 |
+| **R² Score** | **0.6529** |
+
+---
+
+## 📈 Feature Coefficients
+
+| Feature                       | Coefficient     |
+|------------------------------|-----------------|
+| area                         | ₹ 235.97 per sq.ft |
+| bedrooms                     | ₹ 76,778.70 |
+| bathrooms                    | ₹ 1,094,445.00 |
+| stories                      | ₹ 407,476.60 |
+| parking                      | ₹ 224,841.90 |
+| mainroad_yes                 | ₹ 367,919.90 |
+| guestroom_yes                | ₹ 231,610.00 |
+| basement_yes                 | ₹ 390,251.20 |
+| hotwaterheating_yes          | ₹ 684,649.90 |
+| airconditioning_yes          | ₹ 791,426.70 |
+| prefarea_yes                 | ₹ 629,890.60 |
+| furnishingstatus_semi-furnished | ₹ -126,881.80 |
+| furnishingstatus_unfurnished | ₹ -413,645.10 |
+
+---
+
+## 📊 Visualizations
+
+### ✅ Actual vs Predicted Prices
+
+![image](https://github.com/user-attachments/assets/21fd23f9-a99e-4d09-a828-e206d456e0a5)
+
+
+> This plot shows how close the model's predicted prices are to the actual prices. A perfect model would align all points on a 45-degree line.
+
+
+
+
+
+  
