@@ -1,0 +1,3 @@
+Mean Absolute Error: 970043.40
+Mean Squared Error: 1754318687330.66
+R² Score: 0.6529
