@@ -299,5 +299,79 @@ Recall: 0.98
 
 
 
+# Elevate-labs-internship-task-5
+
+## Objective
+The objective of this task was to learn and implement tree-based models for classification and regression, specifically focusing on Decision Trees and Random Forests. Key aspects included understanding model training, visualizing trees, analyzing overfitting, controlling model complexity, evaluating feature importance, and performing cross-validation.
+
+## Tools Used
+* Python
+* Scikit-learn
+* Pandas
+* Matplotlib
+* Seaborn
+
+## Dataset
+The [Heart Disease Dataset](https://archive.ics.uci.edu/dataset/45/heart+disease) was used for this task.
+
+## Implementation Steps and Analysis
+
+### 1. Data Loading and Splitting
+The `heart.csv` dataset was loaded, and features (X) and the target variable (y) were separated. The data was then split into training and testing sets with a 70/30 ratio.
+
+* **Training Data Shape:** (717, 13)
+* **Testing Data Shape:** (308, 13)
+
+### 2. Decision Tree Classifier Training and Visualization (Initial)
+A Decision Tree Classifier was trained on the training data. The initial accuracy on the test set was calculated. The decision tree was then visualized using `matplotlib.pyplot.plot_tree`.
+
+* **Decision Tree Accuracy (before depth control):** 0.9708
+
+**Initial Decision Tree Visualization:**
+![image](https://github.com/user-attachments/assets/66b5f309-93c9-4bc3-a0f9-3b9569c7f0a0)
+
+
+### 3. Overfitting Analysis and Depth Control for Decision Tree
+To understand and mitigate overfitting, a loop was run to train Decision Trees with varying `max_depth` values (from 1 to 14). The training and testing accuracies for each depth were recorded and plotted to identify an optimal depth where the model generalizes well without overfitting.
+
+The analysis indicated an optimal depth for the Decision Tree model.
+
+* **Optimal Decision Tree depth based on testing accuracy:** 10
+* **Decision Tree Accuracy (optimal depth=10):** 0.9708
+
+**Decision Tree Accuracy vs. Max Depth Plot:**
+![image](https://github.com/user-attachments/assets/e3c0dbe5-837a-4b16-ae4d-3330e60c2d19)
+
+
+**Optimal Decision Tree Visualization:**
+![image](https://github.com/user-attachments/assets/2ca757d9-0878-4a35-b106-09cffa1df1dc)
+
+
+### 4. Random Forest Classifier Training and Comparison
+A Random Forest Classifier was trained with 100 estimators. Its accuracy on the test set was calculated and compared against the optimal Decision Tree's accuracy. Random Forests, being an ensemble method, typically offer better generalization and higher accuracy than single decision trees by reducing variance.
+
+* **Random Forest Accuracy:** 0.9805
+* **Comparison: Random Forest (0.9805) vs. Optimal Decision Tree (0.9708)**
+
+### 5. Feature Importances (Random Forest)
+The feature importances from the trained Random Forest model were extracted and visualized to understand which features contributed most significantly to the model's predictions.
+
+**Random Forest Feature Importances Plot:**
+![image](https://github.com/user-attachments/assets/ddfca7d4-e007-43c6-9bbc-9e99565ea35c)
+
+
+### 6. Cross-Validation Evaluation
+Both the optimal Decision Tree and the Random Forest models were evaluated using 5-fold cross-validation on the entire dataset to get a more robust estimate of their performance.
+
+* **Decision Tree Cross-Validation Scores:** `[1. 1. 1. 1. 1.]`
+* **Decision Tree Mean CV Accuracy:** 1.0000
+
+* **Random Forest Cross-Validation Scores:** `[1. 1. 1. 1. 0.98536585]`
+* **Random Forest Mean CV Accuracy:** 0.9971
+
+## Conclusion
+The task successfully demonstrated the implementation and evaluation of Decision Trees and Random Forests for classification. The Random Forest model generally showed better performance (higher accuracy) and robustness, as expected from an ensemble method, especially when considering the cross-validation results. Feature importance analysis provided insights into the most influential predictors in the dataset.
+
+
 
   
