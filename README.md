@@ -374,4 +374,222 @@ The task successfully demonstrated the implementation and evaluation of Decision
 
 
 
+# Elevate-labs-internship-task-6
+
+## Objective
+This task aimed to understand and implement the K-Nearest Neighbors (KNN) algorithm for classification problems.
+
+## Tools Used
+* Python
+* Scikit-learn (sklearn)
+* Pandas
+* Matplotlib
+* Seaborn
+
+## Dataset
+The Iris dataset was used for this task, loaded from the provided `Iris.csv` file.
+The dataset contains the following columns: `Id`, `SepalLengthCm`, `SepalWidthCm`, `PetalLengthCm`, `PetalWidthCm`, and `Species`.
+
+## Implementation Steps & Observations
+
+### 1. Data Loading and Preprocessing
+The `Iris.csv` file was loaded using Pandas. The 'Id' column was dropped as it's not a feature, and 'Species' was identified as the target variable. The `Species` column, containing categorical labels (e.g., 'Iris-setosa'), was converted into numerical format using `LabelEncoder`.
+
+The dataset was then split into training (70%) and testing (30%) sets using `train_test_split`, ensuring stratification to maintain the class distribution in both sets.
+
+**Normalization:** Given that KNN relies on distance calculations, feature scaling is crucial. `MinMaxScaler` was used to normalize the features, transforming them to a range between 0 and 1.
+
+**Original Data Head:**
+Id  SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm      Species
+0   1            5.1           3.5            1.4           0.2  Iris-setosa
+1   2            4.9           3.0            1.4           0.2  Iris-setosa
+2   3            4.7           3.2            1.3           0.2  Iris-setosa
+3   4            4.6           3.1            1.5           0.2  Iris-setosa
+4   5            5.0           3.6            1.4           0.2  Iris-setosa
+
+
+**Target Labels and Names:**
+Target Labels (encoded): [0 1 2]
+Original Target Names: ['Iris-setosa' 'Iris-versicolor' 'Iris-virginica']
+
+
+**Scaled Data (first 5 rows of training set):**
+[[0.22222222 0.20833333 0.32758621 0.41666667]
+[0.52777778 0.08333333 0.5862069  0.58333333]
+[0.22222222 0.75       0.06896552 0.08333333]
+[0.69444444 0.5        0.82758621 0.91666667]
+[0.38888889 0.33333333 0.51724138 0.5       ]]
+
+
+### 2. Experimenting with Different K Values and Model Evaluation
+The `KNeighborsClassifier` from scikit-learn was used. The model was trained and evaluated for various odd values of `K` ranging from 1 to 19. For each `K`, the model's performance was assessed using:
+* **Accuracy Score:** The proportion of correctly classified instances.
+* **Confusion Matrix:** A table showing the counts of true positive, true negative, false positive, and false negative predictions.
+
+**Observations on Accuracy and Confusion Matrices:**
+
+* **For K=1:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 15  0]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* The model perfectly classified Iris-setosa and Iris-versicolor (15 each). However, for Iris-virginica, 3 instances were misclassified as Iris-versicolor, while 12 were correctly classified.
+
+    ![image](https://github.com/user-attachments/assets/02417332-454c-4acb-9240-63d68052cd79)
+
+
+* **For K=3:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 15  0]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* Similar to K=1, the model correctly classified 15 Iris-setosa and 15 Iris-versicolor. 3 Iris-virginica were still misclassified as Iris-versicolor.
+
+  ![image](https://github.com/user-attachments/assets/e0d59584-9441-475a-be89-d788d5f5f090)
+
+
+* **For K=5:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 15  0]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* Performance remains consistent with K=1 and K=3.
+
+    **[Insert image for Confusion Matrix for K=5 here, e.g., `image_e274f9.png`]**
+
+* **For K=7:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 15  0]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* Accuracy and misclassifications are still the same.
+
+   ![image](https://github.com/user-attachments/assets/09bbf150-8717-402f-8245-571e149a0096)
+
+
+* **For K=9:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 15  0]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* No change in accuracy or confusion matrix for K=9.
+
+    ![image](https://github.com/user-attachments/assets/43560b3b-cfb2-40e5-966c-da9615279a17)
+
+
+* **For K=11:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 15  0]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* The model maintains the same accuracy and misclassification pattern up to K=11.
+
+   ![image](https://github.com/user-attachments/assets/d436b4fa-5d9e-4024-a109-97edb7a76ab4)
+
+
+* **For K=13:**
+    * Accuracy: 0.9333
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 14  1]
+         [ 0  2 13]]
+        ```
+    * *Interpretation:* The accuracy remains the same, but the misclassification pattern changes slightly: 1 Iris-versicolor was misclassified as Iris-virginica, and 2 Iris-virginica were misclassified as Iris-versicolor.
+
+    ![image](https://github.com/user-attachments/assets/41d84ef1-0a1a-4ba5-bad9-6ccef94fa5c4)
+
+
+* **For K=15:**
+    * Accuracy: 0.9111
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 14  1]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* The accuracy drops for K=15. Now, 1 Iris-versicolor is misclassified as Iris-virginica, and 3 Iris-virginica are misclassified as Iris-versicolor.
+
+   ![image](https://github.com/user-attachments/assets/d4e4a4f1-3e30-4bf2-aede-05927b9e1162)
+
+* **For K=17:**
+    * Accuracy: 0.9111
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 14  1]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* Accuracy and confusion matrix are consistent with K=15.
+
+ ![image](https://github.com/user-attachments/assets/71464f44-7370-470b-801a-84680283b0ca)
+
+
+* **For K=19:**
+    * Accuracy: 0.9111
+    * Confusion Matrix:
+        ```
+        [[15  0  0]
+         [ 0 14  1]
+         [ 0  3 12]]
+        ```
+    * *Interpretation:* Accuracy and confusion matrix are consistent with K=15 and K=17.
+
+    ![image](https://github.com/user-attachments/assets/349ddabb-2af5-4842-b3b2-45e77366aba6)
+
+
+**Accuracy vs. K Value Plot:**
+
+This plot visually summarizes how accuracy changes with different K values.
+
+![image](https://github.com/user-attachments/assets/9f432418-b9f7-49fe-b901-22ac68b761fb)
+
+
+* *Observation:* The plot clearly shows that the highest accuracy was achieved for K values from 1 to 13 (inclusive), after which the accuracy starts to decrease. This indicates that for this particular dataset and split, a smaller K is generally better. The optimal K found by `np.argmax(accuracies)` was K=1.
+
+### 3. Visualizing Decision Boundaries
+To visualize decision boundaries, only two features (Petal Length and Petal Width) were selected, as this allows for a 2D plot. An optimal K (determined from the accuracy plot, which was K=1 in this case) was chosen to train the final KNN model for visualization. A mesh grid was created, and predictions were made across this grid to illustrate the regions classified by the KNN model. The original data points (training and test) were then overlaid on this plot.
+
+**Decision Boundary Plot:**
+
+![image](https://github.com/user-attachments/assets/68f94c74-89b7-42b4-845a-28eb36ef33fd)
+
+
+* *Interpretation:* This plot shows how the KNN model divides the feature space into regions corresponding to each Iris species. The boundaries are non-linear and depend on the proximity to training data points. For K=1, the boundaries are very sensitive to individual data points.
+
+## Conclusion
+This task successfully demonstrated the implementation of the KNN algorithm for classification. Key steps included data loading, feature normalization (crucial for distance-based algorithms), splitting data, training the `KNeighborsClassifier` with varying `K` values, evaluating performance using accuracy and confusion matrices, and visualizing decision boundaries. The experiment showed that for the Iris dataset, a lower K value (like K=1 to K=13) yielded better or comparable accuracy, with K=1 providing the highest observed accuracy in this run.
+
+## How to Run the Code
+1.  Save the provided Python code (e.g., `knn_iris_classification.py`) and the `Iris.csv` file in the same directory.
+2.  Ensure you have the necessary libraries installed: `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`. If not, install them using pip:
+    ```bash
+    pip install pandas numpy scikit-learn matplotlib seaborn
+    ```
+3.  Run the Python script from your terminal:
+    ```bash
+    python knn_iris_classification.py
+    ```
+    Or, if you are using a Jupyter Notebook, run the cells sequentially.
+
+
+
   
