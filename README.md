@@ -592,4 +592,248 @@ This task successfully demonstrated the implementation of the KNN algorithm for 
 
 
 
+    # Elevate-labs-internship-task-7
+    ## Objective
+This task focused on implementing Support Vector Machines (SVMs) for binary classification, exploring both linear and non-linear (RBF kernel) approaches. Key learning areas included margin maximization, the kernel trick, and hyperparameter tuning.
+
+## Tools Used
+* Python
+* Scikit-learn (sklearn)
+* Pandas
+* NumPy
+* Matplotlib
+* Seaborn
+
+## Dataset
+The Breast Cancer dataset, provided as `breast-cancer.csv`, was used for this task. This dataset is commonly used for binary classification, where the goal is to classify a tumor as either benign ('B') or malignant ('M') based on various features computed from a digitized image of a fine needle aspirate (FNA) of a breast mass.
+
+The dataset contains 32 columns, including an `id` column, `diagnosis` (target variable), and 30 numerical features representing characteristics of the cell nuclei.
+
+## Implementation Steps & Observations
+
+### 1. Data Loading and Preprocessing
+The `breast-cancer.csv` file was loaded using Pandas. The `id` column was dropped as it's an identifier and not a feature. The `diagnosis` column, which contains categorical labels ('M' for Malignant, 'B' for Benign), was encoded into numerical format (typically 0 for 'B' and 1 for 'M') using `LabelEncoder`.
+
+The dataset was then split into training (70%) and testing (30%) sets using `train_test_split`, ensuring stratification to maintain the original class distribution in both sets.
+
+**Feature Scaling:** SVMs are highly sensitive to the scale of features. Therefore, `StandardScaler` was applied to normalize the feature data. This transforms the data to have a mean of 0 and a standard deviation of 1.
+
+**Original Data Head:**
+   id diagnosis  radius_mean  texture_mean  perimeter_mean  area_mean  ...  symmetry_worst  fractal_dimension_worst  
+0   842302         M        17.99         10.38          122.80     1001.0  ...          0.4601                  0.11890
+
+1   842517         M        20.57         17.77          132.90     1326.0  ...          0.2750                  0.08902
+
+2  84300903         M        19.69         21.25          130.00     1203.0  ...          0.3613                  0.08758
+
+3  84348301         M        11.42         20.38           77.58      386.1  ...          0.6638                  0.17300
+
+4  84358402         M        20.29         14.34          135.10     1297.0  ...          0.2364                  0.07678
+
+[5 rows x 32 columns]
+
+
+**DataFrame Info:**
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 569 entries, 0 to 568
+Data columns (total 32 columns):
+
+Column Non-Null Count Dtype
+0   id                       569 non-null    int64
+
+1   diagnosis                569 non-null    object
+2   radius_mean              569 non-null    float64
+3   texture_mean             569 non-null    float64
+4   perimeter_mean           569 non-null    float64
+5   area_mean                569 non-null    float64
+6   smoothness_mean          569 non-null    float64
+7   compactness_mean         569 non-null    float64
+8   concavity_mean           569 non-null    float64
+9   concave points_mean      569 non-null    float64
+10  symmetry_mean            569 non-null    float64
+11  fractal_dimension_mean   569 non-null    float64
+12  radius_se                569 non-null    float64
+13  texture_se               569 non-null    float64
+14  perimeter_se             569 non-null    float64
+15  area_se                  569 non-null    float64
+16  smoothness_se            569 non-null    float64
+17  compactness_se           569 non-null    float64
+18  concavity_se             569 non-null    float64
+19  concave points_se        569 non-null    float64
+20  symmetry_se              569 non-null    float64
+21  fractal_dimension_se     569 non-null    float64
+22  radius_worst             569 non-null    float64
+23  texture_worst            569 non-null    float64
+24  perimeter_worst          569 non-null    float64
+25  area_worst               569 non-null    float64
+26  smoothness_worst         569 non-null    float64
+27  compactness_worst        569 non-null    float64
+28  concavity_worst          569 non-null    float64
+29  concave points_worst     569 non-null    float64
+30  symmetry_worst           569 non-null    float64
+31  fractal_dimension_worst  569 non-null    float64
+dtypes: float64(30), int64(1), object(1)
+memory usage: 142.4+ KB
+
+
+**Target Labels and Names:**
+Target Labels (encoded): [0 1]
+Original Target Names: ['B' 'M']
+Shape of X: (569, 30)
+Shape of y: (569,)
+
+
+**Scaled Data (first 5 rows of training set):**
+[[ 1.70581999  1.04974466  2.12129465  1.66933676  2.27645789  4.54429486
+3.53913939  2.84839268  4.03238962  2.63977264  1.88658218  1.20005314
+2.87275048  1.74921741  1.19777257  2.41558743  2.3247057   2.29784843
+6.94476933  0.82740765  1.45951037  0.94958949  1.86817555  1.3068397
+1.33538327  2.31385505  2.34642696  2.04939907  3.94428119  0.86655367]
+[ 0.53638811 -0.90994477  0.5690952   0.39031555 -0.06586788  0.64494486
+0.39354254  0.55700173 -0.11678098 -0.40152959 -0.25041371 -0.84442436
+-0.11857378 -0.16149227 -0.37614552  0.40854639  0.14771626  0.48165509
+-0.68243869 -0.23809862  0.50829368 -0.64531469  0.50191659  0.33008672
+0.47701253  1.24209126  1.05257355  1.25584994  0.16797759  0.40524244]
+[-0.13145612 -0.99333581 -0.14884823 -0.21154347 -0.91616898 -0.50857386
+-0.56752982 -0.60664497 -0.07986666 -0.51245428 -0.95807347 -1.2145298
+-0.87783349 -0.66531468 -0.59346476  0.26263059 -0.23715248 -0.51677077
+-0.26595611  0.41139177 -0.36245131 -1.02848469 -0.28041517 -0.39938703
+-0.19621941  0.36866098 -0.08079455 -0.14001353  0.74198821  0.68752098]
+[ 0.92807734  1.41805508  0.92540484  0.82854593  0.32973419  0.22374766
+0.98318775  0.44394722 -1.86652019 -0.55598169  0.44143242  0.80819795
+0.44689582  0.41909869  8.38975683  3.37717812  3.37462278  4.43435806
+0.15764583  3.27108269  0.36592069  0.35190979  0.38608159  0.24353898
+-0.3308658  -0.46472119  0.03031066 -0.07225317 -2.04071547 -0.86116674]
+[ 0.14469888 -0.97248805  0.15831525 -0.00969706  1.20575985  0.58504125
+0.13770066  0.56285816  1.11615761  0.1179911   0.37638091 -0.86311837
+0.47025002  0.05663157 -0.49087067  1.06097449  0.36586906  0.74431445
+0.45665897  0.40135385  0.00895651 -1.2577317   0.05936749 -0.14045035
+-0.18780401  0.35912571 -0.06417625  0.37647101  0.3738727   0.04772623]]
+
+
+### 2. Training SVM with Linear Kernel
+A Support Vector Classifier (`SVC`) was trained using a linear kernel.
+
+**Linear SVM Evaluation:**
+* **Accuracy:** 0.9649
+* **Classification Report:**
+    ```
+                  precision    recall  f1-score   support
+
+            B         0.95      1.00      0.97       107
+            M         1.00      0.91      0.95        64
+
+     accuracy                           0.96       171
+    macro avg     0.97      0.95      0.96       171
+ weighted avg     0.97      0.96      0.96       171
+    ```
+* **Confusion Matrix:**
+    ```
+    [[107   0]
+     [  6  58]]
+    ```
+    *Interpretation:* The linear SVM model correctly classified all 107 benign cases (B). For malignant cases (M), it correctly identified 58 but misclassified 6 as benign.
+
+**Confusion Matrix for Linear SVM:**
+![image](https://github.com/user-attachments/assets/74b5134c-e9ba-4991-92d6-f6568bf02a39)
+
+
+### 3. Training SVM with RBF Kernel
+An `SVC` was also trained using the Radial Basis Function (RBF) kernel, which is suitable for non-linear decision boundaries.
+
+**RBF SVM Evaluation (Default Hyperparameters):**
+* **Accuracy:** 0.9591
+* **Classification Report:**
+    ```
+                  precision    recall  f1-score   support
+
+            B         0.94      1.00      0.97       107
+            M         1.00      0.89      0.94        64
+
+     accuracy                           0.96       171
+    macro avg     0.97      0.95      0.96       171
+ weighted avg     0.96      0.96      0.96       171
+    ```
+* **Confusion Matrix:**
+    ```
+    [[107   0]
+     [  7  57]]
+    ```
+    *Interpretation:* The RBF SVM, with default parameters, also classified all 107 benign cases correctly. It misclassified 7 malignant cases as benign, which is slightly more than the linear kernel.
+
+**Confusion Matrix for RBF SVM (Default):**
+![image](https://github.com/user-attachments/assets/c2d7bc34-1f4e-4008-9221-403d1cb527df)
+
+
+### 4. Visualize Decision Boundary (2D)
+To visualize the decision boundary, two key features (`mean radius` and `mean texture`) were selected from the dataset. A separate RBF SVM model was trained on these two scaled features, and its decision boundary was plotted over a mesh grid, with training and test data points overlaid.
+
+**SVM RBF Kernel Decision Boundary (2 Features):**
+![image](https://github.com/user-attachments/assets/4eab7c9b-295f-4e32-b2db-04771760fcc7)
+
+*Interpretation:* The plot illustrates how the RBF kernel creates a non-linear boundary to separate the two classes ('B' and 'M') based on the chosen features. The colored regions represent the areas where the model predicts 'B' or 'M'.
+
+### 5. Hyperparameter Tuning with GridSearchCV
+To optimize the performance of the RBF kernel SVM, `GridSearchCV` was used to find the best combination of `C` (regularization parameter) and `gamma` (kernel coefficient). Cross-validation (5-fold) was inherently part of this process.
+
+**Hyperparameter Tuning Results:**
+Fitting 5 folds for each of 16 candidates, totalling 80 fits
+
+Best parameters found: {'C': 1, 'gamma': 0.01, 'kernel': 'rbf'}
+Best cross-validation accuracy: 0.9698
+
+
+**Tuned RBF SVM Evaluation (on Test Set):**
+* **Accuracy:** 0.9532
+* **Classification Report:**
+    ```
+                  precision    recall  f1-score   support
+
+            B         0.93      1.00      0.96       107
+            M         1.00      0.88      0.93        64
+
+     accuracy                           0.95       171
+    macro avg     0.97      0.94      0.95       171
+ weighted avg     0.96      0.95      0.95       171
+    ```
+* **Confusion Matrix:**
+    ```
+    [[107   0]
+     [  8  56]]
+    ```
+    *Interpretation:* While the cross-validation accuracy was very high (0.9698), the test set accuracy slightly decreased to 0.9532. The model misclassified 8 malignant cases as benign, which is a slight increase compared to the RBF SVM with default parameters. This highlights that while cross-validation gives a good estimate, test set performance can vary.
+
+**Confusion Matrix for Tuned RBF SVM:**
+![image](https://github.com/user-attachments/assets/42a65989-7150-4710-b27c-2ffcf951050d)
+
+
+### 6. Cross-validation for the Best SVM Model
+To further confirm the stability of the chosen model, cross-validation was performed directly on the best `SVC` estimator found by `GridSearchCV`.
+
+**Cross-validation Scores:**
+Cross-validation accuracies (5 folds): [0.975        0.975        0.9875       0.97468354 0.93670886]
+Mean cross-validation accuracy: 0.9698
+Standard deviation of cross-validation accuracies: 0.0172
+
+*Interpretation:* The mean cross-validation accuracy of ~0.9698 confirms the model's robust performance across different folds of the training data. The relatively low standard deviation (0.0172) indicates consistency in performance.
+
+## Conclusion
+This task successfully demonstrated the application of Support Vector Machines for binary classification on the Breast Cancer dataset. We explored both linear and RBF kernels, understanding their performance differences. The importance of feature scaling for SVMs was highlighted. Hyperparameter tuning using `GridSearchCV` and cross-validation proved crucial for finding optimal model configurations and assessing their generalization capability. While the linear kernel performed slightly better on the test set in this specific run, the RBF kernel with tuned hyperparameters also showed strong performance and is capable of capturing non-linear relationships.
+
+## How to Run the Code
+1.  Save the provided Python code (e.g., `svm_breast_cancer.py`) and the `breast-cancer.csv` file in the same directory.
+2.  Ensure you have the necessary libraries installed: `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`. If not, install them using pip:
+    ```bash
+    pip install pandas numpy scikit-learn matplotlib seaborn
+    ```
+3.  Run the Python script from your terminal:
+    ```bash
+    python svm_breast_cancer.py
+    ```
+    Or, if you are using a Jupyter Notebook, run the cells sequentially.
+
+
+
+
+
   
