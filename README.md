@@ -831,7 +831,122 @@ This task successfully demonstrated the application of Support Vector Machines f
     python svm_breast_cancer.py
     ```
     Or, if you are using a Jupyter Notebook, run the cells sequentially.
+    
 
+# Elevate-labs-internship-task-8
+
+## Objective
+This task focuses on performing unsupervised learning using the K-Means clustering algorithm. The primary goal is to segment customers based on their annual income and spending score, identify the optimal number of clusters using the Elbow Method, and evaluate the clustering quality using the Silhouette Score.
+
+## Tools Used
+* Python
+* Scikit-learn (`sklearn`)
+* Pandas
+* Matplotlib
+* NumPy
+
+## Dataset
+For this task, the **Mall Customer Segmentation Dataset** (`Mall_Customers.csv`) was utilized. This dataset contains customer information, including `CustomerID`, `Gender`, `Age`, `Annual Income (k$)`, and `Spending Score (1-100)`. The objective is to group customers into distinct segments based on their `Annual Income (k$)` and `Spending Score (1-100)` to aid in targeted marketing strategies.
+
+## Implementation Steps & Observations
+
+### 1. Data Loading and Preprocessing
+The `Mall_Customers.csv` dataset was loaded into a Pandas DataFrame. For clustering, the `Annual Income (k$)` and `Spending Score (1-100)` columns were selected as features. The `CustomerID` column was excluded as it's an identifier, and `Gender` was not included in this specific clustering analysis to focus on the income-spending relationship. The selected features were then scaled using `StandardScaler` to ensure that features with larger values do not dominate the distance calculations in K-Means.
+
+**Original Data Head:**
+CustomerID  Gender  Age  Annual Income (k$)  Spending Score (1-100)
+0           1    Male   19                  15                      39
+1           2    Male   21                  15                      81
+2           3  Female   20                  16                       6
+3           4  Female   23                  16                      77
+4           5  Female   31                  17                      40
+
+
+**DataFrame Info:**
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 200 entries, 0 to 199
+Data columns (total 5 columns):
+
+Column Non-Null Count Dtype
+0   CustomerID              200 non-null    int64
+1   Gender                  200 non-null    object
+2   Age                     200 non-null    int64
+3   Annual Income (k$)      200 non-null    int64
+4   Spending Score (1-100)  200 non-null    int64
+dtypes: int64(4), object(1)
+memory usage: 7.9+ KB
+
+
+**Scaled Features (first 5 rows):**
+[[-1.73899919 -0.43480148]
+[-1.73899919  1.19570407]
+[-1.70082976 -1.71591298]
+[-1.70082976  1.04041783]
+[-1.66266033 -0.39597992]]
+
+
+### 2. Elbow Method to Find Optimal K
+The Elbow Method was employed to determine the optimal number of clusters (K). This involves fitting K-Means for a range of K values (e.g., 1 to 10) and calculating the inertia (sum of squared distances of samples to their closest cluster center) for each K. The "elbow point" in the plot of inertia vs. K indicates the point where the decrease in inertia starts to slow down significantly, suggesting an appropriate number of clusters.
+
+**Elbow Method Results (Inertia for K=1 to 10):**
+K=1: Inertia=400.00
+K=2: Inertia=269.69
+K=3: Inertia=157.70
+K=4: Inertia=108.92
+K=5: Inertia=65.57
+K=6: Inertia=55.06
+K=7: Inertia=44.86
+K=8: Inertia=37.23
+K=9: Inertia=32.39
+K=10: Inertia=29.98
+
+
+**Elbow Method Plot:**
+![image](https://github.com/user-attachments/assets/5aa3d3f0-4316-4717-a6b7-813336f745d7)
+
+*Interpretation:* From the plot, the 'elbow' appears to be at K=5, indicating that 5 is a reasonable number of clusters for this dataset, as adding more clusters beyond this point provides diminishing returns in terms of reducing inertia.
+
+### 3. K-Means Clustering
+With the optimal K determined as 5, the K-Means algorithm was applied to the scaled features. Each customer was then assigned a cluster label.
+
+**Number of points per cluster (for K=5):**
+Cluster
+0     81
+1     39
+2     22
+3     35
+4     23
+Name: count, dtype: int64
+
+
+### 4. Cluster Visualization
+The segmented customers were visualized on a scatter plot, with 'Scaled Annual Income (k$)' on the x-axis and 'Scaled Spending Score (1-100)' on the y-axis. Each customer point was color-coded according to its assigned cluster, and the cluster centroids were marked.
+
+**K-Means Clustering Plot (K=5):**
+![image](https://github.com/user-attachments/assets/9e83ec3a-325d-4622-8096-d18401136582)
+
+*Interpretation:* The visualization clearly shows 5 distinct customer segments based on their income and spending habits. These segments could represent different customer profiles (e.g., high income-high spending, low income-low spending, etc.).
+
+### 5. Evaluate Clustering Using Silhouette Score
+The Silhouette Score was used to evaluate the quality of the clustering. This metric measures how similar an object is to its own cluster compared to other clusters. A higher Silhouette Score indicates better-defined clusters.
+
+**Silhouette Score for K=5:**
+Silhouette Score: 0.555
+
+*Interpretation:* A Silhouette Score of approximately 0.555 indicates that the clusters are reasonably well-separated, and customers within each cluster are relatively similar to each other.
+
+
+## How to Run the Code
+1.  Save the Python code (e.g., `kmeans_customer_segmentation.py`) and the `Mall_Customers.csv` file in the same directory.
+2.  Ensure you have the necessary libraries installed: `pandas`, `numpy`, `scikit-learn`, `matplotlib`. If not, install them using pip:
+    ```bash
+    pip install pandas numpy scikit-learn matplotlib
+    ```
+3.  Run the Python script from your terminal:
+    ```bash
+    python kmeans_customer_segmentation.py
+    ```
+    Or, if you are using a Jupyter Notebook, run the cells sequentially.
 
 
 
